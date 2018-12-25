@@ -33,9 +33,12 @@ function Float_CompareAbs(V1, V2: Pv8Float): Integer;
 function Float_Compare32(V1: Pv8Float; V2: Int32): Integer;
 function Float_Compare64(V1: Pv8Float; V2: Int64): Integer;
 
-function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
+function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+
 function Float_Add(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Multiply(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Division(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
@@ -49,11 +52,11 @@ function Float_Add_Int64(Val: Pv8Float; ValInt: Int64): Pv8Float;
 function Float_TryAdd_Int32(Val: Pv8Float; ValInt: Int32): Boolean;
 function Float_TryAdd_Int64(Val: Pv8Float; ValInt: Int64): Boolean;
 
-function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+
 
 function Float_Diff_Prep(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
-function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+
 
 const
   NUMBER_MASK = 10000;
