@@ -884,6 +884,10 @@ function Float_Add_Int32(Val: Pv8Float; ValInt: Int32): Pv8Float;
 var
   tmpValue: Pv8Float;
 begin
+  if Float_IsZero(Val) then
+  begin
+    Float_SetValueFromInt32(valInt, Result);
+  end;
   if ValInt = 0 then exit(Val);
   Float_SetValueFromInt32(ValInt, tmpValue);
   Float_Add(Val, tmpValue, Result);
