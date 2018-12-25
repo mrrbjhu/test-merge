@@ -3,8 +3,8 @@
 	<Transactions>
     <Transaction>1899 12 30 00:00:00.000.530,=D:\_delphi\temp\Unit1.pas</Transaction>
     <Transaction>2018 12 25 12:14:11.133,=D:\_delphi\temp\Unit1.pas</Transaction>
-    <Transaction>2018 12 25 12:23:09.587,D:\_git.merge\Unit1.pas=D:\_delphi\temp\Unit1.pas</Transaction>
     <Transaction>2018 12 25 12:23:09.587,D:\_git.merge\Unit1.dfm=D:\_delphi\temp\Unit1.dfm</Transaction>
+    <Transaction>2018 12 25 12:23:09.587,D:\_git.merge\Unit1.pas=D:\_delphi\temp\Unit1.pas</Transaction>
     <Transaction>2018 12 25 12:23:11.349,D:\_git.merge\Project2.dproj=D:\_delphi\temp\Project2.dproj</Transaction>
     <Transaction>2018 12 25 12:24:26.812,=D:\_git.merge\Unit2.pas</Transaction>
     <Transaction>2018 12 25 12:24:55.221,D:\_git.merge\TestUnit1.pas=D:\_git.merge\Unit2.pas</Transaction>
@@ -12,5 +12,7 @@
     <Transaction>2018 12 25 12:25:09.454,D:\_git.merge\TestUnit2.pas=D:\_git.merge\Unit2.pas</Transaction>
     <Transaction>2018 12 25 12:25:13.509,=D:\_git.merge\Unit2.pas</Transaction>
     <Transaction>2018 12 25 12:25:40.360,D:\_git.merge\TestUnit3.pas=D:\_git.merge\Unit2.pas</Transaction>
+    <Transaction>2018 12 25 15:30:49.653,=D:\_git.merge\v8ValueFloat.pas</Transaction>
+    <Transaction>2018 12 25 15:32:15.621,D:\_git.merge\v8ValueFloat.pas=</Transaction>
   </Transactions>
 </BorlandProject>
