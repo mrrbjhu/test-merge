@@ -14,8 +14,8 @@ type
     destructor Destroy; override;
 
     function FieldSetNotNegative: Integer;
-
     function FieldRevertNegative: Integer;
+
     function GetFieldOfString: String;
     function GetMultyField(Value: Integer): Integer;
     procedure SetField(Value: Integer);
@@ -35,7 +35,6 @@ destructor TTestClass1.Destroy;
 begin
   inherited;
 end;
-
 
 function TTestClass1.FieldSetNotNegative: Integer;
 begin
