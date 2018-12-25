@@ -12,11 +12,12 @@ type
   public
     constructor Create(Value: Integer);
     destructor Destroy; override;
+
     function FieldSetNotNegative: Integer;
     function FieldRevertNegative: Integer;
 
     function GetFieldOfString: String;
-    function GetMultyField: Integer;
+    function GetMultyField(Value: Integer): Integer;
     procedure SetField(Value: Integer);
     procedure SetFieldToZero;
     property Field: Integer read FField;
@@ -51,9 +52,9 @@ begin
   Result := IntToStr(FField);
 end;
 
-function TTestClass1.GetMultyField: Integer;
+function TTestClass1.GetMultyField(Value: Integer): Integer;
 begin
-  Result := FField * FField;
+  Result := FField * Value;
 end;
 
 procedure TTestClass1.SetField(Value: Integer);
