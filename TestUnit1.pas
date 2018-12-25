@@ -39,6 +39,7 @@ end;
 function TTestClass1.FieldSetNotNegative: Integer;
 begin
   if FField < 0 then FField := -FField;
+end;
 
 function TTestClass1.FieldRevertNegative: Integer;
 begin
