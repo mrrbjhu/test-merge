@@ -26,7 +26,7 @@ implementation
 
 constructor TTestClass1.Create(Value: Integer);
 begin
-  SetField(Value);
+  FField := VAlue;
 end;
 
 
@@ -44,7 +44,6 @@ end;
 function TTestClass1.FieldRevertNegative: Integer;
 begin
   FField := -FField;
-
   Result := FField;
 end;
 
