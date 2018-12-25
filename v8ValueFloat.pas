@@ -270,33 +270,29 @@ end;
 
 function Float_SetValueFromUInt64(Data: UInt64; Negative: Boolean; var Value: Pv8Float): Boolean;
 var
-  i, j, n: Integer;
-  tempRes: array [0 .. 15] of Integer;
+  countD, i: Integer;
 begin
-
+  Result := True;
   if Data = 0 then
   begin
     Value := nil;
     exit;
   end;
-  i := 0;
-  while Data > 0 do
+
+  if Data > 9999999999999999 then countD := 5
+  else if Data > 999999999999 then countD := 4
+  else if Data > 99999999 then countD := 3
+  else if Data > 9999 then countD := 2
+  else countD := 1;
+
+  Value := Float_AllocRaw(countD);
+  for i := countD - 1 downto 0 do
   begin
-    tempRes[i] := Data mod 10000;
-    Data := Data div 10000;
-    Inc(i);
+    Value.Data[i] := Data mod NUMBER_MASK;
+    Data := Data div NUMBER_MASK;
   end;
 
-  n := i - 1;
-  Value := Float_AllocRaw(n);
-  j := 0;
-  for i := n downto 0 do
-  begin
-    Value.Data[i] := tempRes[n - i];
-  end;
-  Value.Size := n + 1;
   Value.Scale := 0;
-  Value.Negative := Negative;
 end;
 
 function Float_DumpToString(Value: Pv8Float; var fs: TFormatSettings): string; overload;
