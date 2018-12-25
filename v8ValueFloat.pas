@@ -33,9 +33,6 @@ function Float_CompareAbs(V1, V2: Pv8Float): Integer;
 function Float_Compare32(V1: Pv8Float; V2: Int32): Integer;
 function Float_Compare64(V1: Pv8Float; V2: Int64): Integer;
 
-function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
-
-function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Add(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Multiply(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 function Float_Division(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
@@ -50,10 +47,12 @@ function Float_TryAdd_Int32(Val: Pv8Float; ValInt: Int32): Boolean;
 function Float_TryAdd_Int64(Val: Pv8Float; ValInt: Int64): Boolean;
 
 function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 function Float_Diff_Prep(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 const
   NUMBER_MASK = 10000;
@@ -526,137 +525,6 @@ begin
   end;
 end;
 
-function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
-var
-  i, n, offset1, offset2, tempInt, offset, tmp1, tmp2, Delta, RStart, REnd: Integer;
-  tempRes: array [0 .. 15] of Integer;
-  incScale: Boolean;
-begin
-  Res := Float_AllocRaw(Max(V1.Size, V2.Size) + 1);
-  for i := 0 to 15 do tempRes[i] := 0;
-  n := Max(V1.Size, V2.Size);
-  if V1.Size - V1.Scale >= V2.Size - V2.Scale then
-  begin
-    offset1 := (V1.Size - V1.Scale) - (V2.Size - V2.Scale);
-    offset2 := 0;
-  end
-  else
-  begin
-    offset1 := 0;
-    offset2 := (V2.Size - V2.Scale) - (V1.Size - V1.Scale);
-  end;
-  n := n + offset1 + offset2 - 1;
-  tempInt := 0;
-  for i := n downto -Max(offset1, offset2) do
-  begin
-    if (i + offset1 > V1.Size - 1) or (i + offset1 < 0) then tmp1 := 0
-    else tmp1 := V1.Data[i + offset1];
-    if (i + offset2 > V2.Size - 1) or (i + offset2 < 0) then tmp2 := 0
-    else tmp2 := V2.Data[i + offset2];
-    tempRes[i + 1] := (tmp1 + tmp2 + tempInt) mod 10000;
-    tempInt := (tmp1 + tmp2 + tempInt) div 10000;
-  end;
-
-  incScale := false;
-  if tempInt > 0 then
-  begin
-    tempRes[0] := tempInt;
-    incScale := True;
-  end
-  else
-  begin
-    if tempRes[0] > 0 then
-    begin
-      incScale := True;
-    end;
-  end;
-
-  for i := 0 to n do
-  begin
-    if incScale then
-    begin
-      Res.Data[i] := tempRes[i]
-    end
-    else
-    begin
-      Res.Data[i] := tempRes[i + 1]
-    end;
-  end;
-
-  if incScale then
-  begin
-    Res.Size := Max(V1.Size, V2.Size) + 1;
-    Res.Scale := Max(V1.Scale, V2.Scale);
-  end
-  else
-  begin
-    Res.Size := Max(V1.Size, V2.Size);
-    Res.Scale := Max(V1.Scale, V2.Scale);
-  end;
-  for i := 15 downto 0 do
-    if Res.Data[i] > 0 then
-    begin
-      Res.Size := i + 1;
-      exit;
-    end;
-
-  for i := Res.Size downto Res.Size - Res.Scale do
-  begin
-    if Res.Data[i] = 0 then
-    begin
-      //Dec(Res.Size);
-      Dec(Res.Scale);
-      break;
-    end;
-  end;
-end;
-
-function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
-var
-  i, n, j, offset1, offset2, tempInt: Integer;
-  tempRes: array [0 .. 15] of Integer;
-begin
-  Res := Float_AllocRaw(Max(V1.Size, V2.Size) + 1);
-  FillChar(tempRes[0], SizeOf(tempRes), 0);
-  n := Max(V1.Size, V2.Size);
-
-  if V1.Size - V1.Scale >= V2.Size - V2.Scale then
-  begin
-    offset1 := (V1.Size - V1.Scale) - (V2.Size - V2.Scale);
-    offset2 := 0;
-  end
-  else
-  begin
-    offset1 := 0;
-    offset2 := (V2.Size - V2.Scale) - (V1.Size - V1.Scale);
-  end;
-  n := n + offset1 + offset2 - 1;
-  tempInt := 0;
-  j := 1;
-  for i := n downto 0 do
-  begin
-    if V2.Data[i - offset2] > V1.Data[i - offset1] then
-    begin
-      while V1.Data[i - offset1 - j] = 0 do
-      begin
-        V1.Data[i - offset1 - j] := 9999;
-        Inc(j);
-      end;
-      Dec(V1.Data[i - offset1 - j]);
-      tempRes[i] := 10000 + V1.Data[i - offset1] - V2.Data[i - offset2];
-      j := 1;
-    end
-    else tempRes[i] := V1.Data[i - offset1] - V2.Data[i - offset2];
-
-  end;
-  for i := 0 to n do
-  begin
-    Res.Data[i] := tempRes[i];
-  end;
-  Res.Size := n + 1;
-  Res.Scale := Max(V1.Scale, V2.Scale);
-end;
-
 function Float_Add(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 var
   i, n, cmp: Integer;
@@ -758,7 +626,7 @@ begin
   Float_SetValueFromDouble(d1 - Floor(d1 / d2) * d2, Res);
 end;
 
-function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 var
   i, j, offset, Size: Integer;
   Val: Integer;
@@ -907,7 +775,7 @@ begin
   end;
 end;
 
-function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 var
   i, n, cmp: Integer;
 begin
@@ -1112,6 +980,18 @@ begin
     for i := count1 to V1.Size - 1 do
       if V1.Data[i] > 0 then Result := -1;
   if (V2 < 0) and V1.Negative then Result := Result * -1;
+end;
+
+function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+begin
+  // TODO -cMM: Float_AddAbs default body inserted
+  Result := false;
+end;
+
+function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+begin
+  // TODO -cMM: Float_Diff default body inserted
+  Result := false;
 end;
 
 initialization
