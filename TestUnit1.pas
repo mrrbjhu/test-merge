@@ -17,6 +17,7 @@ type
 
     function FieldRevertNegative: Integer;
     function GetFieldOfString: String;
+    function GetMultyField(Value: Integer): Integer;
     procedure SetField(Value: Integer);
     procedure SetFieldToZero;
     property Field: Integer read FField;
@@ -50,6 +51,11 @@ end;
 function TTestClass1.GetFieldOfString: String;
 begin
   Result := IntToStr(FField);
+end;
+
+function TTestClass1.GetMultyField(Value: Integer): Integer;
+begin
+  Result := FField * Value;
 end;
 
 procedure TTestClass1.SetField(Value: Integer);
