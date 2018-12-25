@@ -2,8 +2,7 @@ program Project2;
 
 uses
   Vcl.Forms,
-  Unit1 in 'Unit1.pas' {Form1},
-  v8ValueFloat in 'v8ValueFloat.pas';
+  Unit1 in 'Unit1.pas' {Form1};
 
 {$R *.res}
 
