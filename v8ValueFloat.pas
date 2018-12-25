@@ -531,19 +531,19 @@ var
 begin
   if Float_IsZero(V1) then
   begin
-    if Float_IsZero(V2) then exit(nil)
+    if Float_IsZero(V2) then exit(false)
     else
     begin
-      Result := V2;
+      Result := true;
       exit;
     end;
   end;
   if Float_IsZero(V2) then
   begin
-    if Float_IsZero(V1) then exit(nil)
+    if Float_IsZero(V1) then exit(false)
     else
     begin
-      Result := V1;
+      Result := true;
       exit;
     end;
   end;
