@@ -25,6 +25,7 @@ begin
   SetField(Value);
 end;
 
+
 destructor TTestClass1.Destroy;
 begin
   inherited;
@@ -39,6 +40,7 @@ procedure TTestClass1.SetField(Value: Integer);
 begin
   FField := Value;
 end;
+
 
 procedure TTestClass1.SetFieldToZero;
 begin
