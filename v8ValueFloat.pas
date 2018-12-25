@@ -47,10 +47,12 @@ function Float_TryAdd_Int32(Val: Pv8Float; ValInt: Int32): Boolean;
 function Float_TryAdd_Int64(Val: Pv8Float; ValInt: Int64): Boolean;
 
 function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 function Float_Diff_Prep(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 
 const
   NUMBER_MASK = 10000;
@@ -624,7 +626,7 @@ begin
   Float_SetValueFromDouble(d1 - Floor(d1 / d2) * d2, Res);
 end;
 
-function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_AddAbs_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 var
   i, j, offset, Size: Integer;
   Val: Integer;
@@ -773,7 +775,7 @@ begin
   end;
 end;
 
-function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+function Float_Diff_OLD(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
 var
   i, n, cmp: Integer;
 begin
@@ -978,6 +980,18 @@ begin
     for i := count1 to V1.Size - 1 do
       if V1.Data[i] > 0 then Result := -1;
   if (V2 < 0) and V1.Negative then Result := Result * -1;
+end;
+
+function Float_AddAbs(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+begin
+  // TODO -cMM: Float_AddAbs default body inserted
+  Result := false;
+end;
+
+function Float_Diff(V1, V2: Pv8Float; out Res: Pv8Float): Boolean;
+begin
+  // TODO -cMM: Float_Diff default body inserted
+  Result := false;
 end;
 
 initialization
