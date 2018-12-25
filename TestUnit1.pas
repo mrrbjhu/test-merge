@@ -12,6 +12,7 @@ type
   public
     constructor Create(Value: Integer);
     destructor Destroy; override;
+    function FieldSetNotNegative: Integer;
     function GetFieldOfString: String;
     procedure SetField(Value: Integer);
     procedure SetFieldToZero;
@@ -29,6 +30,12 @@ end;
 destructor TTestClass1.Destroy;
 begin
   inherited;
+end;
+
+function TTestClass1.FieldSetNotNegative: Integer;
+begin
+  if FField < 0 then FField := -FField;
+  Result := FField;
 end;
 
 function TTestClass1.GetFieldOfString: String;
