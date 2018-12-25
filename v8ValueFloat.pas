@@ -271,7 +271,6 @@ end;
 function Float_SetValueFromUInt64(Data: UInt64; Negative: Boolean; var Value: Pv8Float): Boolean;
 var
   i, j, n: Integer;
-  tempRes: array [0 .. 15] of Integer;
 begin
 
   if Data = 0 then
@@ -282,7 +281,6 @@ begin
   i := 0;
   while Data > 0 do
   begin
-    tempRes[i] := Data mod 10000;
     Data := Data div 10000;
     Inc(i);
   end;
@@ -292,7 +290,6 @@ begin
   j := 0;
   for i := n downto 0 do
   begin
-    Value.Data[i] := tempRes[n - i];
   end;
   Value.Size := n + 1;
   Value.Scale := 0;
